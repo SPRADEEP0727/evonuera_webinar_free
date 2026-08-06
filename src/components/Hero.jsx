@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Star, Radio, Users, ArrowRight, Sparkles, Calendar, Clock, Languages } from 'lucide-react'
 import { useReserve } from './ReserveContext.jsx'
+import { EVENT_ORIGINAL_PRICE } from '../config.js'
 
 const container = {
   hidden: {},
@@ -59,7 +60,18 @@ export default function Hero() {
 
           <motion.div
             variants={item}
-            className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start"
+            className="mt-6 flex items-baseline justify-center gap-2.5 lg:justify-start"
+          >
+            <span className="font-display text-3xl font-bold text-white">FREE</span>
+            <span className="font-display text-xl font-semibold text-slate-400 line-through decoration-brand-coral/70 decoration-2">
+              {EVENT_ORIGINAL_PRICE}
+            </span>
+            <span className="text-sm text-slate-300">limited-time seat</span>
+          </motion.div>
+
+          <motion.div
+            variants={item}
+            className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start"
           >
             <button onClick={openReserve} className="btn-primary w-full sm:w-auto">
               Reserve My Free Seat

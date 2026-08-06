@@ -16,6 +16,7 @@ import {
   WHATSAPP_COMMUNITY_LINK,
   LEAD_WEBHOOK_URL,
   PRIVYR_WEBHOOK_URL,
+  EVENT_ORIGINAL_PRICE,
   EVENT_DATE,
   EVENT_TIME,
 } from '../config.js'
@@ -173,7 +174,12 @@ export default function ReserveFlow() {
             className="space-y-4"
           >
             <div>
-              <h3 className="font-display text-xl font-bold text-slate-900">Reserve your free seat</h3>
+              <div className="flex items-center gap-2.5">
+                <h3 className="font-display text-xl font-bold text-slate-900">Reserve your free seat</h3>
+                <span className="inline-flex items-baseline gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+                  FREE <span className="text-emerald-500/70 line-through">{EVENT_ORIGINAL_PRICE}</span>
+                </span>
+              </div>
               <p className="mt-1 text-sm text-slate-500">Fill your details to unlock the webinar - takes 20 seconds.</p>
             </div>
 

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { CheckCircle2, Flame, Calendar, Clock, Languages } from 'lucide-react'
 import LightSection from './LightSection.jsx'
 import ReserveFlow from './ReserveFlow.jsx'
+import { EVENT_ORIGINAL_PRICE } from '../config.js'
 
 export default function Registration() {
   return (
@@ -26,9 +27,12 @@ export default function Registration() {
                   webinar. Seats are limited, so grab yours before it's full.
                 </p>
 
-                <div className="mt-6 flex items-baseline gap-2.5">
+                <div className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <span className="font-display text-4xl font-bold text-slate-900">FREE</span>
-                  <span className="text-sm text-slate-500">no payment · full access</span>
+                  <span className="font-display text-2xl font-semibold text-slate-400 line-through decoration-red-400/70 decoration-2">
+                    {EVENT_ORIGINAL_PRICE}
+                  </span>
+                  <span className="text-sm text-slate-500">limited-time · full access</span>
                 </div>
 
                 <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700">

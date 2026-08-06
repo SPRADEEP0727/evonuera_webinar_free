@@ -21,5 +21,6 @@ export const LEAD_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyme3uW
 export const PRIVYR_WEBHOOK_URL = 'https://www.privyr.com/api/v1/incoming-leads/0vZfjMQw/WlRc8Vj8'
 
 // Event details (kept here so they stay consistent everywhere)
+export const EVENT_ORIGINAL_PRICE = '₹199' // anchor price shown struck-through next to FREE
 export const EVENT_DATE = 'Sunday, 16 August'
 export const EVENT_TIME = '10:00 - 11:30 AM IST'
