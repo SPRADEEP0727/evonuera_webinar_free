@@ -10,7 +10,6 @@ import {
   Lock,
   Calendar,
   Clock,
-  PlayCircle,
 } from 'lucide-react'
 import {
   WHATSAPP_COMMUNITY_LINK,
@@ -42,7 +41,7 @@ const steps = ['Register', "You're in"]
  * inline Registration section.
  */
 export default function ReserveFlow() {
-  const { markRegistered, close } = useReserve()
+  const { markRegistered } = useReserve()
   const [step, setStep] = useState(0) // 0 details · 1 registered
   const [form, setForm] = useState({ name: '', email: '', phone: '+91 ', profession: '' })
   const [errors, setErrors] = useState({})
@@ -115,12 +114,6 @@ export default function ReserveFlow() {
     setStep(1)
   }
 
-  const watchWebinar = () => {
-    close()
-    const el = document.getElementById('watch')
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }
-
   const joinCommunity = () => {
     window.open(WHATSAPP_COMMUNITY_LINK, '_blank', 'noopener,noreferrer')
   }
@@ -180,7 +173,7 @@ export default function ReserveFlow() {
                   FREE <span className="text-emerald-500/70 line-through">{EVENT_ORIGINAL_PRICE}</span>
                 </span>
               </div>
-              <p className="mt-1 text-sm text-slate-500">Fill your details to unlock the webinar - takes 20 seconds.</p>
+              <p className="mt-1 text-sm text-slate-500">Fill your details to confirm your free seat - takes 20 seconds.</p>
             </div>
 
             <Field icon={User} label="Full Name" placeholder="Your name" value={form.name} onChange={update('name')} error={errors.name} autoComplete="name" />
@@ -251,13 +244,6 @@ export default function ReserveFlow() {
             >
               <WhatsAppIcon className="h-5 w-5" />
               Join WhatsApp Community
-            </button>
-            <button
-              onClick={watchWebinar}
-              className="mt-3 flex w-full items-center justify-center gap-1.5 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-800"
-            >
-              <PlayCircle className="h-4 w-4" />
-              Or watch the webinar now
             </button>
           </motion.div>
         )}

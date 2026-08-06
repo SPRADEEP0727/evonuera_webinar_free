@@ -3,10 +3,6 @@
 //  👉 Paste your real links below. That's the only edit needed.
 // ─────────────────────────────────────────────────────────────
 
-// webinar.gg embed URL for the free live webinar player.
-// Example: 'https://webinar.gg/embed/your-id'
-export const WEBINAR_EMBED_URL = 'https://webinar.gg/embed/cmsg9o4pp00d7s60yn03ojdcx'
-
 // WhatsApp community invite link.
 // Example: 'https://chat.whatsapp.com/ABC123xyz'
 export const WHATSAPP_COMMUNITY_LINK = 'https://chat.whatsapp.com/ExMrZqW9cqJEeXP1ncslA4'

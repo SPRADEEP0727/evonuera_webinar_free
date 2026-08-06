@@ -8,7 +8,6 @@ import LiveDemo from './components/LiveDemo.jsx'
 import Audience from './components/Audience.jsx'
 import Trainer from './components/Trainer.jsx'
 import Registration from './components/Registration.jsx'
-import WebinarSection from './components/WebinarSection.jsx'
 import FAQ from './components/FAQ.jsx'
 import Footer from './components/Footer.jsx'
 import StickyCTA from './components/StickyCTA.jsx'
@@ -27,7 +26,6 @@ export default function App() {
           <Audience />
           <Trainer />
           <Registration />
-          <WebinarSection />
           <FAQ />
         </main>
         <Footer />

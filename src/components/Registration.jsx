@@ -23,8 +23,8 @@ export default function Registration() {
                   Reserve your <span className="gradient-text">seat</span>
                 </h2>
                 <p className="mt-4 leading-relaxed text-slate-500">
-                  It's completely free - just register to lock in your live seat and unlock the
-                  webinar. Seats are limited, so grab yours before it's full.
+                  It's completely free - just register to lock in your live seat. Seats are limited,
+                  so grab yours before it's full.
                 </p>
 
                 <div className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
