@@ -13,8 +13,8 @@ const faqs = [
     a: 'No. We start from the fundamentals and build up. As long as you have basic computer skills and curiosity, you can follow along and build a real product by the end.',
   },
   {
-    q: 'How much does it cost?',
-    a: 'Just ₹49 - a small one-time fee to reserve your live seat. It keeps registrations serious and helps us keep the session high-value. There are no hidden charges beyond that.',
+    q: 'Is it really free?',
+    a: 'Yes - the masterclass is 100% free. Just register with your details to reserve your seat and unlock the webinar. No payment, no hidden charges.',
   },
   {
     q: 'Will there be a recording?',

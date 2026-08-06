@@ -21,7 +21,7 @@ export default function Hero() {
           <motion.div variants={item} className="flex justify-center lg:justify-start">
             <span className="section-eyebrow">
               <Sparkles className="h-3.5 w-3.5 text-brand-purple" />
-              Live Masterclass · In Tamil · Just ₹49
+              Free Live Masterclass · In Tamil
             </span>
           </motion.div>
 
@@ -37,7 +37,7 @@ export default function Hero() {
             variants={item}
             className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-slate-300 text-balance sm:text-lg lg:mx-0"
           >
-            Join a hands-on Live Masterclass (in Tamil) for just ₹49 and discover how to build
+            Join a free, hands-on Live Masterclass (in Tamil) and discover how to build
             AI-powered applications, AI systems, and ship real products using modern AI tools.
           </motion.p>
 
@@ -62,7 +62,7 @@ export default function Hero() {
             className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start"
           >
             <button onClick={openReserve} className="btn-primary w-full sm:w-auto">
-              Reserve My Seat - ₹49
+              Reserve My Free Seat
               <ArrowRight className="h-4.5 w-4.5" />
             </button>
             <a href="#curriculum" className="btn-ghost w-full sm:w-auto">

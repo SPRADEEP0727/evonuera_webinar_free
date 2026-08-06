@@ -65,7 +65,7 @@ export default function Curriculum() {
 
         <Reveal delay={0.1} className="mt-12 text-center">
           <button onClick={openReserve} className="btn-primary">
-            Reserve My Seat - ₹49
+            Reserve My Free Seat
           </button>
         </Reveal>
       </div>

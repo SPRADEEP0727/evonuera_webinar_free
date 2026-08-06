@@ -54,7 +54,7 @@ export default function Navbar() {
             <Calendar className="h-3.5 w-3.5 text-brand-purple" /> 16 Aug · 10 AM · Tamil
           </span>
           <button onClick={openReserve} className="hidden btn-primary !px-5 !py-2.5 text-sm sm:inline-flex">
-            Reserve My Seat · ₹49
+            Reserve My Free Seat
           </button>
           <button
             aria-label="Toggle menu"
@@ -92,7 +92,7 @@ export default function Navbar() {
               }}
               className="mt-2 btn-primary w-full text-sm"
             >
-              Reserve My Seat · ₹49
+              Reserve My Free Seat
             </button>
           </motion.div>
         )}

@@ -40,7 +40,7 @@ export default function StickyCTA() {
           <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-3 rounded-2xl glass-strong px-4 py-3 shadow-glow-lg sm:px-5">
             <div className="min-w-0">
               <p className="flex items-center gap-1.5 text-xs font-semibold text-red-300">
-                <Flame className="h-3.5 w-3.5" /> Seats Filling Fast · ₹49
+                <Flame className="h-3.5 w-3.5" /> Free Webinar · Seats Filling Fast
               </p>
               <p className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm font-semibold text-white">
                 Live Masterclass · Tamil
@@ -51,7 +51,7 @@ export default function StickyCTA() {
               </p>
             </div>
             <button onClick={openReserve} className="btn-primary shrink-0 !px-5 !py-3 text-sm">
-              Reserve<span className="hidden sm:inline">&nbsp;My Seat</span>
+              Reserve<span className="hidden sm:inline">&nbsp;My Free Seat</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>

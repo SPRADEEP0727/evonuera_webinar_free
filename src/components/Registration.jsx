@@ -22,13 +22,13 @@ export default function Registration() {
                   Reserve your <span className="gradient-text">seat</span>
                 </h2>
                 <p className="mt-4 leading-relaxed text-slate-500">
-                  Just ₹49 - a one-time fee to lock in your live seat. Seats are limited, so grab yours
-                  before it's full.
+                  It's completely free - just register to lock in your live seat and unlock the
+                  webinar. Seats are limited, so grab yours before it's full.
                 </p>
 
                 <div className="mt-6 flex items-baseline gap-2.5">
-                  <span className="font-display text-4xl font-bold text-slate-900">₹49</span>
-                  <span className="text-sm text-slate-500">one-time · full access</span>
+                  <span className="font-display text-4xl font-bold text-slate-900">FREE</span>
+                  <span className="text-sm text-slate-500">no payment · full access</span>
                 </div>
 
                 <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700">
@@ -73,7 +73,7 @@ export default function Registration() {
               </div>
             </div>
 
-            {/* Right - reservation flow (details → payment → community) */}
+            {/* Right - reservation flow (details → registered) */}
             <div className="relative border-t border-slate-200 p-8 sm:p-10 md:border-l md:border-t-0">
               <ReserveFlow />
             </div>

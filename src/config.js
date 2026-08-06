@@ -3,9 +3,9 @@
 //  👉 Paste your real links below. That's the only edit needed.
 // ─────────────────────────────────────────────────────────────
 
-// Razorpay payment link/page for the ₹49 registration.
-// Example: 'https://rzp.io/l/evonuera-masterclass'
-export const RAZORPAY_LINK = 'https://rzp.io/rzp/E9XpLCRR'
+// webinar.gg embed URL for the free live webinar player.
+// Example: 'https://webinar.gg/embed/your-id'
+export const WEBINAR_EMBED_URL = 'https://webinar.gg/embed/cmsg9o4pp00d7s60yn03ojdcx'
 
 // WhatsApp community invite link.
 // Example: 'https://chat.whatsapp.com/ABC123xyz'
@@ -17,6 +17,5 @@ export const WHATSAPP_COMMUNITY_LINK = 'https://chat.whatsapp.com/ExMrZqW9cqJEeX
 export const LEAD_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyme3uWz0GsYtU5cZE0irq0LD2_dgVlIABcSy3xW8WQZSwSV98-iEFvZaf6x7e504uwPg/exec'
 
 // Event details (kept here so they stay consistent everywhere)
-export const EVENT_PRICE = '₹49'
 export const EVENT_DATE = 'Sunday, 16 August'
 export const EVENT_TIME = '10:00 - 11:30 AM IST'

@@ -3,40 +3,41 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import ReserveFlow from './ReserveFlow.jsx'
 
-const ReserveContext = createContext({ open: () => {}, close: () => {}, isOpen: false })
+const ReserveContext = createContext({
+  open: () => {},
+  close: () => {},
+  isOpen: false,
+  registered: false,
+  markRegistered: () => {},
+})
 
 export const useReserve = () => useContext(ReserveContext)
 
+const REGISTERED_KEY = 'evonuera_registered'
+
 export function ReserveProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [startStep, setStartStep] = useState(0) // 0 details · 2 community (after payment)
-  const open = useCallback(() => {
-    setStartStep(0)
-    setIsOpen(true)
+  const [registered, setRegistered] = useState(false)
+
+  // Restore "registered" state so the webinar stays unlocked across reloads.
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(REGISTERED_KEY) === '1') setRegistered(true)
+    } catch {
+      /* storage unavailable - ignore */
+    }
   }, [])
+
+  const open = useCallback(() => setIsOpen(true), [])
   const close = useCallback(() => setIsOpen(false), [])
 
-  // On return from a SUCCESSFUL Razorpay payment, open the modal straight to
-  // the WhatsApp community step. Razorpay is configured to redirect back to
-  // `<site>/?paid=1`; we also accept Razorpay's own success params. The
-  // WhatsApp link is never shown unless one of these is present.
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const paid =
-      params.get('paid') === '1' ||
-      params.get('razorpay_payment_link_status') === 'paid' ||
-      !!params.get('razorpay_payment_id')
-    if (!paid) return
-
-    setStartStep(2)
-    setIsOpen(true)
-
-    // Clean the payment params out of the URL so a refresh doesn't re-trigger.
-    const url = new URL(window.location.href)
-    ;['paid', 'razorpay_payment_id', 'razorpay_payment_link_id', 'razorpay_payment_link_reference_id', 'razorpay_payment_link_status', 'razorpay_signature'].forEach(
-      (k) => url.searchParams.delete(k)
-    )
-    window.history.replaceState({}, '', url.pathname + url.search + url.hash)
+  const markRegistered = useCallback(() => {
+    setRegistered(true)
+    try {
+      localStorage.setItem(REGISTERED_KEY, '1')
+    } catch {
+      /* storage unavailable - ignore */
+    }
   }, [])
 
   // Esc to close + lock body scroll while open
@@ -53,7 +54,7 @@ export function ReserveProvider({ children }) {
   }, [isOpen, close])
 
   return (
-    <ReserveContext.Provider value={{ open, close, isOpen }}>
+    <ReserveContext.Provider value={{ open, close, isOpen, registered, markRegistered }}>
       {children}
 
       <AnimatePresence>
@@ -76,7 +77,7 @@ export function ReserveProvider({ children }) {
             <motion.div
               role="dialog"
               aria-modal="true"
-              aria-label="Reserve your seat"
+              aria-label="Reserve your free seat"
               initial={{ opacity: 0, scale: 0.95, y: 24 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.97, y: 12 }}
@@ -107,7 +108,7 @@ export function ReserveProvider({ children }) {
                   <span className="font-display text-lg font-bold text-slate-900">Evonuera</span>
                 </div>
 
-                <ReserveFlow key={startStep} initialStep={startStep} />
+                <ReserveFlow />
               </div>
             </motion.div>
           </motion.div>

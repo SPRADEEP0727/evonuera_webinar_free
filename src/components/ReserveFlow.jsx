@@ -6,22 +6,19 @@ import {
   Phone,
   Briefcase,
   ArrowRight,
-  ArrowLeft,
   CheckCircle2,
-  CreditCard,
-  ShieldCheck,
   Lock,
   Calendar,
   Clock,
+  PlayCircle,
 } from 'lucide-react'
 import {
-  RAZORPAY_LINK,
   WHATSAPP_COMMUNITY_LINK,
   LEAD_WEBHOOK_URL,
-  EVENT_PRICE,
   EVENT_DATE,
   EVENT_TIME,
 } from '../config.js'
+import { useReserve } from './ReserveContext.jsx'
 
 const professions = [
   'Software Engineer',
@@ -34,16 +31,17 @@ const professions = [
   'Other',
 ]
 
-const steps = ['Details', 'Payment', 'Community']
+const steps = ['Register', "You're in"]
 
 /**
- * Reusable 3-step reservation flow:
- *   1. Details form  →  2. Razorpay payment  →  3. Join WhatsApp community
+ * Free 2-step reservation flow:
+ *   1. Details form  →  2. You're registered (watch webinar + join WhatsApp)
  * Styled for a light (white) surface - used inside the modal and the
  * inline Registration section.
  */
-export default function ReserveFlow({ initialStep = 0 }) {
-  const [step, setStep] = useState(initialStep) // 0 details · 1 payment · 2 community
+export default function ReserveFlow() {
+  const { markRegistered, close } = useReserve()
+  const [step, setStep] = useState(0) // 0 details · 1 registered
   const [form, setForm] = useState({ name: '', email: '', phone: '+91 ', profession: '' })
   const [errors, setErrors] = useState({})
 
@@ -73,7 +71,7 @@ export default function ReserveFlow({ initialStep = 0 }) {
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           ...form,
-          price: EVENT_PRICE,
+          price: 'FREE',
           source: 'landing-page',
           submittedAt: new Date().toISOString(),
         }),
@@ -87,28 +85,15 @@ export default function ReserveFlow({ initialStep = 0 }) {
     e.preventDefault()
     const er = validate()
     if (Object.keys(er).length) return setErrors(er)
-    captureLead() // save the lead to Google Sheet before payment
+    captureLead() // save the lead to Google Sheet
+    markRegistered() // unlock the gated webinar player
     setStep(1)
   }
 
-  const goToPayment = () => {
-    // Save the lead locally, then redirect (same tab) to Razorpay with the
-    // customer's details prefilled. After a SUCCESSFUL payment, Razorpay
-    // returns to this site (configure the payment link's redirect URL to
-    // `<your-site>/?paid=1`) and the WhatsApp community step is shown
-    // automatically. WhatsApp is never revealed before payment.
-    try {
-      sessionStorage.setItem('evonuera_lead', JSON.stringify(form))
-    } catch {
-      /* storage unavailable - ignore */
-    }
-
-    const p = new URLSearchParams()
-    if (form.name) p.set('prefill[name]', form.name)
-    if (form.email) p.set('prefill[email]', form.email)
-    if (form.phone) p.set('prefill[contact]', form.phone)
-    const sep = RAZORPAY_LINK.includes('?') ? '&' : '?'
-    window.location.href = `${RAZORPAY_LINK}${sep}${p.toString()}`
+  const watchWebinar = () => {
+    close()
+    const el = document.getElementById('watch')
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
   const joinCommunity = () => {
@@ -164,8 +149,8 @@ export default function ReserveFlow({ initialStep = 0 }) {
             className="space-y-4"
           >
             <div>
-              <h3 className="font-display text-xl font-bold text-slate-900">Reserve your seat</h3>
-              <p className="mt-1 text-sm text-slate-500">Fill your details to continue - takes 20 seconds.</p>
+              <h3 className="font-display text-xl font-bold text-slate-900">Reserve your free seat</h3>
+              <p className="mt-1 text-sm text-slate-500">Fill your details to unlock the webinar - takes 20 seconds.</p>
             </div>
 
             <Field icon={User} label="Full Name" placeholder="Your name" value={form.name} onChange={update('name')} error={errors.name} autoComplete="name" />
@@ -196,7 +181,7 @@ export default function ReserveFlow({ initialStep = 0 }) {
             </div>
 
             <button type="submit" className="btn-primary mt-1 w-full">
-              Continue to Payment - {EVENT_PRICE}
+              Reserve My Free Seat
               <ArrowRight className="h-4.5 w-4.5" />
             </button>
             <p className="flex items-center justify-center gap-1.5 text-center text-xs text-slate-400">
@@ -205,52 +190,10 @@ export default function ReserveFlow({ initialStep = 0 }) {
           </motion.form>
         )}
 
-        {/* STEP 2 - payment */}
+        {/* STEP 2 - registered */}
         {step === 1 && (
           <motion.div
-            key="payment"
-            initial={{ opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
-            transition={{ duration: 0.25 }}
-          >
-            <h3 className="font-display text-xl font-bold text-slate-900">Complete your payment</h3>
-            <p className="mt-1 text-sm text-slate-500">
-              A one-time {EVENT_PRICE} confirms your live seat. After a successful payment you'll
-              return here to join the WhatsApp community.
-            </p>
-
-            <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">AI Masterclass - Live Seat</span>
-                <span className="font-display text-2xl font-bold text-slate-900">{EVENT_PRICE}</span>
-              </div>
-              <div className="mt-3 space-y-1.5 border-t border-slate-200 pt-3 text-xs text-slate-500">
-                <p className="flex items-center gap-2"><Calendar className="h-3.5 w-3.5 text-brand-purple" /> {EVENT_DATE}</p>
-                <p className="flex items-center gap-2"><Clock className="h-3.5 w-3.5 text-brand-coral" /> {EVENT_TIME}</p>
-              </div>
-            </div>
-
-            <button onClick={goToPayment} className="btn-primary mt-5 w-full">
-              <CreditCard className="h-4.5 w-4.5" />
-              Pay {EVENT_PRICE} with Razorpay
-            </button>
-            <button
-              onClick={() => setStep(0)}
-              className="mt-3 flex w-full items-center justify-center gap-1.5 text-sm font-medium text-slate-500 transition-colors hover:text-slate-800"
-            >
-              <ArrowLeft className="h-4 w-4" /> Edit my details
-            </button>
-            <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-slate-400">
-              <ShieldCheck className="h-3.5 w-3.5" /> Secure checkout powered by Razorpay
-            </p>
-          </motion.div>
-        )}
-
-        {/* STEP 3 - WhatsApp community */}
-        {step === 2 && (
-          <motion.div
-            key="community"
+            key="registered"
             initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
@@ -260,16 +203,25 @@ export default function ReserveFlow({ initialStep = 0 }) {
               <CheckCircle2 className="h-9 w-9 text-emerald-500" />
             </div>
             <h3 className="mt-5 font-display text-2xl font-bold text-slate-900">
-              Payment successful! 🎉
+              You're registered! 🎉
             </h3>
             <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-slate-500">
-              Your seat is confirmed. Join our WhatsApp community now - that's where you'll get the
-              joining link, reminders and resources for the masterclass.
+              Your free seat is confirmed. The webinar is now unlocked - watch it below, and join
+              our WhatsApp community for the live link, reminders and resources.
             </p>
 
+            <div className="mx-auto mt-5 flex max-w-xs flex-wrap items-center justify-center gap-x-4 gap-y-1.5 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs font-medium text-slate-600">
+              <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-brand-purple" /> {EVENT_DATE}</span>
+              <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-brand-coral" /> {EVENT_TIME}</span>
+            </div>
+
+            <button onClick={watchWebinar} className="btn-primary mt-6 w-full">
+              <PlayCircle className="h-4.5 w-4.5" />
+              Watch the Webinar
+            </button>
             <button
               onClick={joinCommunity}
-              className="mx-auto mt-6 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-7 py-3.5 font-semibold text-white shadow-[0_10px_30px_-8px_rgba(37,211,102,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-8px_rgba(37,211,102,0.75)]"
+              className="mx-auto mt-3 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-7 py-3.5 font-semibold text-white shadow-[0_10px_30px_-8px_rgba(37,211,102,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-8px_rgba(37,211,102,0.75)]"
             >
               <WhatsAppIcon className="h-5 w-5" />
               Join WhatsApp Community
