@@ -206,8 +206,8 @@ export default function ReserveFlow() {
               You're registered! 🎉
             </h3>
             <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-slate-500">
-              Your free seat is confirmed. The webinar is now unlocked - watch it below, and join
-              our WhatsApp community for the live link, reminders and resources.
+              Your free seat is confirmed. Join our WhatsApp community now - that's where you'll get
+              the live link, reminders and resources for the masterclass.
             </p>
 
             <div className="mx-auto mt-5 flex max-w-xs flex-wrap items-center justify-center gap-x-4 gap-y-1.5 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs font-medium text-slate-600">
@@ -215,16 +215,19 @@ export default function ReserveFlow() {
               <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-brand-coral" /> {EVENT_TIME}</span>
             </div>
 
-            <button onClick={watchWebinar} className="btn-primary mt-6 w-full">
-              <PlayCircle className="h-4.5 w-4.5" />
-              Watch the Webinar
-            </button>
             <button
               onClick={joinCommunity}
-              className="mx-auto mt-3 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-7 py-3.5 font-semibold text-white shadow-[0_10px_30px_-8px_rgba(37,211,102,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-8px_rgba(37,211,102,0.75)]"
+              className="mx-auto mt-6 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-7 py-3.5 font-semibold text-white shadow-[0_10px_30px_-8px_rgba(37,211,102,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-8px_rgba(37,211,102,0.75)]"
             >
               <WhatsAppIcon className="h-5 w-5" />
               Join WhatsApp Community
+            </button>
+            <button
+              onClick={watchWebinar}
+              className="mt-3 flex w-full items-center justify-center gap-1.5 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-800"
+            >
+              <PlayCircle className="h-4 w-4" />
+              Or watch the webinar now
             </button>
           </motion.div>
         )}
