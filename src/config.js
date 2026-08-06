@@ -16,6 +16,12 @@ export const LEAD_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyme3uW
 // form data) so it flows into your Privyr CRM. Leave empty to disable.
 export const PRIVYR_WEBHOOK_URL = 'https://www.privyr.com/api/v1/incoming-leads/0vZfjMQw/WlRc8Vj8'
 
+// Meta (Facebook/Instagram) Pixel ID for ad conversion tracking.
+// Paste the 15-16 digit Pixel ID from Meta Events Manager. Leave empty to
+// disable. When set, a PageView loads on every visit and a "Lead" event
+// fires on each successful registration.
+export const META_PIXEL_ID = ''
+
 // Event details (kept here so they stay consistent everywhere)
 export const EVENT_ORIGINAL_PRICE = '₹199' // anchor price shown struck-through next to FREE
 export const EVENT_DATE = 'Sunday, 16 August'

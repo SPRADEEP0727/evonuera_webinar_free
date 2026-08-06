@@ -19,6 +19,7 @@ import {
   EVENT_TIME,
 } from '../config.js'
 import { useReserve } from './ReserveContext.jsx'
+import { trackLead } from '../pixel.js'
 
 const professions = [
   'Software Engineer',
@@ -134,8 +135,9 @@ export default function ReserveFlow() {
     e.preventDefault()
     const er = validate()
     if (Object.keys(er).length) return setErrors(er)
-    captureLead() // save the lead to Google Sheet
-    markRegistered() // unlock the gated webinar player
+    captureLead() // save the lead to Google Sheet + Privyr
+    trackLead() // fire Meta Pixel "Lead" event for ad optimisation
+    markRegistered()
     setStep(1)
   }
 
