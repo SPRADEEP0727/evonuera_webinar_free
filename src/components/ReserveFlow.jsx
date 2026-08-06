@@ -78,7 +78,10 @@ export default function ReserveFlow() {
   }
 
   const captureLead = () => {
-    const fullPhone = `${dialOf(form.country)} ${form.phone}`.trim()
+    // Send the dial code without the leading "+" so Google Sheets doesn't
+    // read the value as a formula (e.g. "91 98765 43210", not "+91 ...").
+    const dial = dialOf(form.country).replace('+', '')
+    const fullPhone = `${dial} ${form.phone}`.trim()
     const lead = {
       name: form.name,
       email: form.email,
