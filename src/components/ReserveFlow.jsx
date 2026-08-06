@@ -15,6 +15,7 @@ import {
 import {
   WHATSAPP_COMMUNITY_LINK,
   LEAD_WEBHOOK_URL,
+  PRIVYR_WEBHOOK_URL,
   EVENT_DATE,
   EVENT_TIME,
 } from '../config.js'
@@ -60,24 +61,47 @@ export default function ReserveFlow() {
   }
 
   const captureLead = () => {
-    // Fire-and-forget POST to a Google Apps Script Web App that appends the
-    // lead to a Google Sheet. Uses no-cors + text/plain so the browser sends
-    // it without a CORS preflight; we don't need to read the response.
-    if (!LEAD_WEBHOOK_URL) return
-    try {
-      fetch(LEAD_WEBHOOK_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({
-          ...form,
-          price: 'FREE',
-          source: 'landing-page',
-          submittedAt: new Date().toISOString(),
-        }),
-      }).catch(() => {})
-    } catch {
-      /* network unavailable - ignore, never block the user */
+    const lead = {
+      ...form,
+      price: 'FREE',
+      source: 'landing-page',
+      submittedAt: new Date().toISOString(),
+    }
+
+    // 1) Google Sheet via Apps Script Web App. no-cors + text/plain so the
+    //    browser sends it without a CORS preflight; we don't read the response.
+    if (LEAD_WEBHOOK_URL) {
+      try {
+        fetch(LEAD_WEBHOOK_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(lead),
+        }).catch(() => {})
+      } catch {
+        /* ignore - never block the user */
+      }
+    }
+
+    // 2) Privyr CRM via its generic incoming-leads webhook. Sent as form data
+    //    (allowed under no-cors, and Privyr accepts form-encoded leads).
+    if (PRIVYR_WEBHOOK_URL) {
+      try {
+        const body = new URLSearchParams({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          profession: form.profession,
+          source: 'Evonuera Free Masterclass Landing Page',
+        })
+        fetch(PRIVYR_WEBHOOK_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body,
+        }).catch(() => {})
+      } catch {
+        /* ignore - never block the user */
+      }
     }
   }
 
