@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import ReserveFlow from './ReserveFlow.jsx'
@@ -18,6 +18,7 @@ const REGISTERED_KEY = 'evonuera_registered'
 export function ReserveProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false)
   const [registered, setRegistered] = useState(false)
+  const hasOpenedRef = useRef(false) // becomes true once the modal is opened (auto or manual)
 
   // Restore "registered" state so the webinar stays unlocked across reloads.
   useEffect(() => {
@@ -28,8 +29,37 @@ export function ReserveProvider({ children }) {
     }
   }, [])
 
-  const open = useCallback(() => setIsOpen(true), [])
+  const open = useCallback(() => {
+    hasOpenedRef.current = true
+    setIsOpen(true)
+  }, [])
   const close = useCallback(() => setIsOpen(false), [])
+
+  // Auto-open the reservation popup ~5s after the visitor lands - but only
+  // once per browser session, and never if they've already registered or
+  // already opened it themselves.
+  useEffect(() => {
+    if (registered) return
+    let done = false
+    try {
+      done = sessionStorage.getItem('evonuera_autopopped') === '1'
+    } catch {
+      /* storage unavailable - ignore */
+    }
+    if (done) return
+
+    const t = setTimeout(() => {
+      if (hasOpenedRef.current || registered) return
+      hasOpenedRef.current = true
+      setIsOpen(true)
+      try {
+        sessionStorage.setItem('evonuera_autopopped', '1')
+      } catch {
+        /* ignore */
+      }
+    }, 5000)
+    return () => clearTimeout(t)
+  }, [registered])
 
   const markRegistered = useCallback(() => {
     setRegistered(true)

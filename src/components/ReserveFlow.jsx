@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   User,
   Mail,
-  Phone,
   Briefcase,
   ArrowRight,
   CheckCircle2,
@@ -32,6 +31,24 @@ const professions = [
   'Other',
 ]
 
+// Country dial codes. India is first so it's the default selection.
+const countries = [
+  { code: 'IN', dial: '+91', flag: '🇮🇳', name: 'India' },
+  { code: 'US', dial: '+1', flag: '🇺🇸', name: 'United States' },
+  { code: 'GB', dial: '+44', flag: '🇬🇧', name: 'United Kingdom' },
+  { code: 'AE', dial: '+971', flag: '🇦🇪', name: 'UAE' },
+  { code: 'SG', dial: '+65', flag: '🇸🇬', name: 'Singapore' },
+  { code: 'MY', dial: '+60', flag: '🇲🇾', name: 'Malaysia' },
+  { code: 'AU', dial: '+61', flag: '🇦🇺', name: 'Australia' },
+  { code: 'CA', dial: '+1', flag: '🇨🇦', name: 'Canada' },
+  { code: 'LK', dial: '+94', flag: '🇱🇰', name: 'Sri Lanka' },
+  { code: 'QA', dial: '+974', flag: '🇶🇦', name: 'Qatar' },
+  { code: 'SA', dial: '+966', flag: '🇸🇦', name: 'Saudi Arabia' },
+  { code: 'DE', dial: '+49', flag: '🇩🇪', name: 'Germany' },
+]
+
+const dialOf = (code) => countries.find((c) => c.code === code)?.dial || ''
+
 const steps = ['Register', "You're in"]
 
 /**
@@ -43,7 +60,7 @@ const steps = ['Register', "You're in"]
 export default function ReserveFlow() {
   const { markRegistered } = useReserve()
   const [step, setStep] = useState(0) // 0 details · 1 registered
-  const [form, setForm] = useState({ name: '', email: '', phone: '+91 ', profession: '' })
+  const [form, setForm] = useState({ name: '', email: '', country: 'IN', phone: '', profession: '' })
   const [errors, setErrors] = useState({})
 
   const update = (k) => (e) => {
@@ -55,14 +72,19 @@ export default function ReserveFlow() {
     const er = {}
     if (!form.name.trim()) er.name = 'Please enter your name'
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) er.email = 'Enter a valid email'
-    if (!/^[\d\s+()-]{7,}$/.test(form.phone)) er.phone = 'Enter a valid phone number'
+    if (!/^[\d\s()-]{6,}$/.test(form.phone.trim())) er.phone = 'Enter a valid phone number'
     if (!form.profession) er.profession = 'Select your profession'
     return er
   }
 
   const captureLead = () => {
+    const fullPhone = `${dialOf(form.country)} ${form.phone}`.trim()
     const lead = {
-      ...form,
+      name: form.name,
+      email: form.email,
+      phone: fullPhone,
+      profession: form.profession,
+      country: form.country,
       price: 'FREE',
       source: 'landing-page',
       submittedAt: new Date().toISOString(),
@@ -90,7 +112,7 @@ export default function ReserveFlow() {
         const body = new URLSearchParams({
           name: form.name,
           email: form.email,
-          phone: form.phone,
+          phone: fullPhone,
           profession: form.profession,
           source: 'Evonuera Free Masterclass Landing Page',
         })
@@ -178,7 +200,46 @@ export default function ReserveFlow() {
 
             <Field icon={User} label="Full Name" placeholder="Your name" value={form.name} onChange={update('name')} error={errors.name} autoComplete="name" />
             <Field icon={Mail} label="Email" type="email" placeholder="you@example.com" value={form.email} onChange={update('email')} error={errors.email} autoComplete="email" />
-            <Field icon={Phone} label="Phone" type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={update('phone')} error={errors.phone} autoComplete="tel" />
+
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">Phone</label>
+              <div
+                className={`flex items-stretch overflow-hidden rounded-xl border bg-slate-50 transition-colors focus-within:border-brand-purple/60 focus-within:bg-white ${
+                  errors.phone ? 'border-red-400' : 'border-slate-200'
+                }`}
+              >
+                <div className="relative shrink-0">
+                  <select
+                    value={form.country}
+                    onChange={update('country')}
+                    aria-label="Country code"
+                    className="h-full appearance-none border-r border-slate-200 bg-transparent py-3 pl-3.5 pr-8 text-sm font-medium text-slate-800 outline-none"
+                  >
+                    {countries.map((c) => (
+                      <option key={c.code} value={c.code} className="bg-white text-slate-900">
+                        {c.code}
+                      </option>
+                    ))}
+                  </select>
+                  <svg className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <span className="flex select-none items-center pl-3 pr-1 text-sm font-medium text-slate-500">
+                  {dialOf(form.country)}
+                </span>
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  autoComplete="tel"
+                  placeholder="98765 43210"
+                  value={form.phone}
+                  onChange={update('phone')}
+                  className="w-full bg-transparent py-3 pl-1 pr-3.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none"
+                />
+              </div>
+              {errors.phone && <p className="mt-1.5 text-xs text-red-500">{errors.phone}</p>}
+            </div>
 
             <div>
               <label className="mb-1.5 block text-sm font-medium text-slate-700">Profession</label>
