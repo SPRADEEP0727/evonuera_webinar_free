@@ -35,32 +35,6 @@ export function ReserveProvider({ children }) {
   }, [])
   const close = useCallback(() => setIsOpen(false), [])
 
-  // Auto-open the reservation popup ~5s after the visitor lands - but only
-  // once per browser session, and never if they've already registered or
-  // already opened it themselves.
-  useEffect(() => {
-    if (registered) return
-    let done = false
-    try {
-      done = sessionStorage.getItem('evonuera_autopopped') === '1'
-    } catch {
-      /* storage unavailable - ignore */
-    }
-    if (done) return
-
-    const t = setTimeout(() => {
-      if (hasOpenedRef.current || registered) return
-      hasOpenedRef.current = true
-      setIsOpen(true)
-      try {
-        sessionStorage.setItem('evonuera_autopopped', '1')
-      } catch {
-        /* ignore */
-      }
-    }, 5000)
-    return () => clearTimeout(t)
-  }, [registered])
-
   const markRegistered = useCallback(() => {
     setRegistered(true)
     try {
