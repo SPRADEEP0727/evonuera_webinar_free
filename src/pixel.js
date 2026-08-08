@@ -32,9 +32,16 @@ export function initPixel() {
   window.fbq('track', 'PageView')
 }
 
-/** Fire the standard "Lead" event on a successful registration. */
+/**
+ * Fire the registration-complete conversion when the popup form is submitted.
+ * Sends two standard events so both funnel steps are measurable in Meta:
+ *   • CompleteRegistration - the "registration finished" step (pairs with the
+ *     PageView "landing visit" step to form a 2-step funnel).
+ *   • Lead - kept for lead-generation ad optimisation.
+ */
 export function trackLead() {
-  if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('track', 'Lead', { content_name: 'Free AI Masterclass Registration' })
-  }
+  if (typeof window === 'undefined' || !window.fbq) return
+  const details = { content_name: 'Free AI Masterclass Registration' }
+  window.fbq('track', 'CompleteRegistration', details)
+  window.fbq('track', 'Lead', details)
 }
