@@ -19,7 +19,7 @@ import {
   EVENT_TIME,
 } from '../config.js'
 import { useReserve } from './ReserveContext.jsx'
-import { trackLead } from '../pixel.js'
+import { trackLead, trackJoinCommunity } from '../pixel.js'
 
 const professions = [
   'Software Engineer',
@@ -142,6 +142,7 @@ export default function ReserveFlow() {
   }
 
   const joinCommunity = () => {
+    trackJoinCommunity() // Meta Pixel: WhatsApp community join click
     window.open(WHATSAPP_COMMUNITY_LINK, '_blank', 'noopener,noreferrer')
   }
 

@@ -45,3 +45,12 @@ export function trackLead() {
   window.fbq('track', 'CompleteRegistration', details)
   window.fbq('track', 'Lead', details)
 }
+
+/** Fire a custom event when a visitor clicks "Join WhatsApp Community". */
+export function trackJoinCommunity() {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('trackCustom', 'JoinWhatsAppCommunity', {
+      content_name: 'WhatsApp Community Join',
+    })
+  }
+}
