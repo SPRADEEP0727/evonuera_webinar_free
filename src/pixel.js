@@ -4,6 +4,20 @@
 // ─────────────────────────────────────────────────────────────
 import { META_PIXEL_ID } from './config.js'
 
+/**
+ * Generate a unique event id. Passed to fbq as `eventID` so that when the
+ * same event is also sent to Meta's Conversions API (server side), Meta can
+ * deduplicate the browser + server copies instead of double-counting them.
+ */
+function newEventId() {
+  try {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID()
+  } catch {
+    /* fall through */
+  }
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`
+}
+
 /** Inject the Meta Pixel base code and track the initial PageView. */
 export function initPixel() {
   if (!META_PIXEL_ID || typeof window === 'undefined') return
@@ -29,7 +43,7 @@ export function initPixel() {
   /* eslint-enable */
 
   window.fbq('init', META_PIXEL_ID)
-  window.fbq('track', 'PageView')
+  window.fbq('track', 'PageView', {}, { eventID: newEventId() })
 }
 
 /**
@@ -38,19 +52,23 @@ export function initPixel() {
  *   • CompleteRegistration - the "registration finished" step (pairs with the
  *     PageView "landing visit" step to form a 2-step funnel).
  *   • Lead - kept for lead-generation ad optimisation.
+ * Each event carries its own eventID for browser/server deduplication.
  */
 export function trackLead() {
   if (typeof window === 'undefined' || !window.fbq) return
   const details = { content_name: 'Free AI Masterclass Registration' }
-  window.fbq('track', 'CompleteRegistration', details)
-  window.fbq('track', 'Lead', details)
+  window.fbq('track', 'CompleteRegistration', details, { eventID: newEventId() })
+  window.fbq('track', 'Lead', details, { eventID: newEventId() })
 }
 
 /** Fire a custom event when a visitor clicks "Join WhatsApp Community". */
 export function trackJoinCommunity() {
   if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('trackCustom', 'JoinWhatsAppCommunity', {
-      content_name: 'WhatsApp Community Join',
-    })
+    window.fbq(
+      'trackCustom',
+      'JoinWhatsAppCommunity',
+      { content_name: 'WhatsApp Community Join' },
+      { eventID: newEventId() },
+    )
   }
 }
