@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { ReserveProvider } from './components/ReserveContext.jsx'
 import Background from './components/Background.jsx'
 import Navbar from './components/Navbar.jsx'
@@ -31,6 +32,7 @@ export default function App() {
         <Footer />
         <StickyCTA />
       </div>
+      <Analytics />
     </ReserveProvider>
   )
 }
