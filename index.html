@@ -34,13 +34,17 @@
 
     <meta name="theme-color" content="#09070b" />
 
-    <!-- Fonts -->
+    <!-- Fonts: only Geist in the 4 weights actually used, display=swap so
+         text paints instantly with a fallback and never blocks the LCP. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Preload the LCP hero image so the mobile browser fetches it early. -->
+    <link rel="preload" as="image" href="/images/hero.webp" type="image/webp" fetchpriority="high" />
 
     <!-- Structured data -->
     <script type="application/ld+json">

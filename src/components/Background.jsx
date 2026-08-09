@@ -1,15 +1,12 @@
-import { motion } from 'framer-motion'
-
 /**
- * Fixed, full-viewport ambient background:
+ * Fixed, full-viewport ambient background - pure CSS (no framer-motion, no JS
+ * particle loop) so it costs nothing on the main thread and never delays
+ * interactivity/LCP:
  * - deep gradient base
  * - faint grid with radial fade
- * - floating blurred gradient orbs (AI-inspired)
- * - drifting particle dots
+ * - a few blurred gradient orbs that drift via CSS keyframes
  */
 export default function Background() {
-  const particles = Array.from({ length: 22 })
-
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
       {/* Base gradient */}
@@ -33,42 +30,19 @@ export default function Background() {
         }}
       />
 
-      {/* Floating orbs */}
-      <motion.div
-        className="absolute -left-32 top-24 h-[420px] w-[420px] rounded-full blur-[120px]"
+      {/* Floating orbs - CSS-animated (composited), reduced on the main thread */}
+      <div
+        className="absolute -left-32 top-24 h-[420px] w-[420px] rounded-full blur-[120px] animate-float-slow"
         style={{ background: 'radial-gradient(circle, rgba(140,82,255,0.5), transparent 70%)' }}
-        animate={{ y: [0, -40, 0], x: [0, 20, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
-        className="absolute right-[-10%] top-[38%] h-[500px] w-[500px] rounded-full blur-[130px]"
+      <div
+        className="absolute right-[-10%] top-[38%] h-[500px] w-[500px] rounded-full blur-[130px] animate-float"
         style={{ background: 'radial-gradient(circle, rgba(255,87,87,0.34), transparent 70%)' }}
-        animate={{ y: [0, 50, 0], x: [0, -30, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
-        className="absolute left-[20%] top-[70%] h-[360px] w-[360px] rounded-full blur-[120px]"
+      <div
+        className="absolute left-[20%] top-[70%] hidden h-[360px] w-[360px] rounded-full blur-[120px] animate-float-slow sm:block"
         style={{ background: 'radial-gradient(circle, rgba(140,82,255,0.32), transparent 70%)' }}
-        animate={{ y: [0, -30, 0], x: [0, 25, 0] }}
-        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
       />
-
-      {/* Drifting particles */}
-      {particles.map((_, i) => {
-        const left = (i * 47) % 100
-        const top = (i * 71) % 100
-        const size = 1.5 + (i % 4)
-        const dur = 8 + (i % 7)
-        return (
-          <motion.span
-            key={i}
-            className="absolute rounded-full bg-white/40"
-            style={{ left: `${left}%`, top: `${top}%`, width: size, height: size }}
-            animate={{ y: [0, -26, 0], opacity: [0.15, 0.6, 0.15] }}
-            transition={{ duration: dur, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }}
-          />
-        )
-      })}
 
       {/* Bottom vignette */}
       <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-ink-950 to-transparent" />

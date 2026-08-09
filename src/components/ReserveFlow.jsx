@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   User,
@@ -9,6 +9,7 @@ import {
   Lock,
   Calendar,
   Clock,
+  Loader2,
 } from 'lucide-react'
 import {
   WHATSAPP_COMMUNITY_LINK,
@@ -63,6 +64,8 @@ export default function ReserveFlow() {
   const [step, setStep] = useState(0) // 0 details · 1 registered
   const [form, setForm] = useState({ name: '', email: '', country: 'IN', phone: '', profession: '' })
   const [errors, setErrors] = useState({})
+  const [submitting, setSubmitting] = useState(false)
+  const submittedRef = useRef(false) // hard guard against double submissions
 
   const update = (k) => (e) => {
     setForm((f) => ({ ...f, [k]: e.target.value }))
@@ -133,8 +136,11 @@ export default function ReserveFlow() {
 
   const submitDetails = (e) => {
     e.preventDefault()
+    if (submittedRef.current) return // ignore rapid double taps
     const er = validate()
     if (Object.keys(er).length) return setErrors(er)
+    submittedRef.current = true
+    setSubmitting(true)
     captureLead() // save the lead to Google Sheet + Privyr
     trackLead() // fire Meta Pixel "Lead" event for ad optimisation
     markRegistered()
@@ -208,7 +214,9 @@ export default function ReserveFlow() {
             <Field icon={Mail} label="Email" type="email" placeholder="you@example.com" value={form.email} onChange={update('email')} error={errors.email} autoComplete="email" />
 
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">Phone</label>
+              <label htmlFor="field-phone" className="mb-1.5 block text-sm font-medium text-slate-700">
+                Phone / WhatsApp number
+              </label>
               <div
                 className={`flex items-stretch overflow-hidden rounded-xl border bg-slate-50 transition-colors focus-within:border-brand-purple/60 focus-within:bg-white ${
                   errors.phone ? 'border-red-400' : 'border-slate-200'
@@ -235,9 +243,11 @@ export default function ReserveFlow() {
                   {dialOf(form.country)}
                 </span>
                 <input
+                  id="field-phone"
                   type="tel"
                   inputMode="numeric"
                   autoComplete="tel"
+                  aria-invalid={errors.phone ? 'true' : undefined}
                   placeholder="98765 43210"
                   value={form.phone}
                   onChange={update('phone')}
@@ -248,10 +258,13 @@ export default function ReserveFlow() {
             </div>
 
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">Profession</label>
+              <label htmlFor="field-profession" className="mb-1.5 block text-sm font-medium text-slate-700">
+                Profession
+              </label>
               <div className="relative">
                 <Briefcase className="pointer-events-none absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-slate-400" />
                 <select
+                  id="field-profession"
                   value={form.profession}
                   onChange={update('profession')}
                   className={`w-full appearance-none rounded-xl border bg-slate-50 py-3 pl-11 pr-10 text-sm outline-none transition-colors focus:border-brand-purple/60 focus:bg-white ${
@@ -270,9 +283,22 @@ export default function ReserveFlow() {
               {errors.profession && <p className="mt-1.5 text-xs text-red-500">{errors.profession}</p>}
             </div>
 
-            <button type="submit" className="btn-primary mt-1 w-full">
-              Reserve My Free Seat
-              <ArrowRight className="h-4.5 w-4.5" />
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn-primary mt-1 w-full disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {submitting ? (
+                <>
+                  <Loader2 className="h-4.5 w-4.5 animate-spin" />
+                  Reserving your seat...
+                </>
+              ) : (
+                <>
+                  Reserve My Free Seat
+                  <ArrowRight className="h-4.5 w-4.5" />
+                </>
+              )}
             </button>
             <p className="flex items-center justify-center gap-1.5 text-center text-xs text-slate-400">
               <Lock className="h-3 w-3" /> Your details are safe with us. No spam.
@@ -320,12 +346,17 @@ export default function ReserveFlow() {
 }
 
 function Field({ icon: Icon, label, error, ...props }) {
+  const id = `field-${label.toLowerCase().replace(/\s+/g, '-')}`
   return (
     <div>
-      <label className="mb-1.5 block text-sm font-medium text-slate-700">{label}</label>
+      <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-slate-700">
+        {label}
+      </label>
       <div className="relative">
         <Icon className="pointer-events-none absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-slate-400" />
         <input
+          id={id}
+          aria-invalid={error ? 'true' : undefined}
           {...props}
           className={`w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-colors focus:border-brand-purple/60 focus:bg-white ${
             error ? 'border-red-400' : 'border-slate-200'
