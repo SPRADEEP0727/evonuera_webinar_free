@@ -16,12 +16,7 @@ export default function Navbar() {
   const { open: openReserve } = useReserve()
 
   return (
-    <motion.header
-      initial={{ y: -24, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="relative z-40 py-4"
-    >
+    <header className="relative z-40 py-4">
       <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl px-4 py-1 sm:px-6">
         <a href="#top" className="flex items-center gap-2.5 font-display text-lg font-bold text-white">
           <picture>
@@ -97,6 +92,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   )
 }

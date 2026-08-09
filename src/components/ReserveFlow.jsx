@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   User,
@@ -13,6 +13,7 @@ import {
   Lock,
   Calendar,
   Clock,
+  Loader2,
 } from 'lucide-react'
 import {
   RAZORPAY_LINK,
@@ -46,6 +47,8 @@ export default function ReserveFlow({ initialStep = 0 }) {
   const [step, setStep] = useState(initialStep) // 0 details · 1 payment · 2 community
   const [form, setForm] = useState({ name: '', email: '', phone: '+91 ', profession: '' })
   const [errors, setErrors] = useState({})
+  const [submitting, setSubmitting] = useState(false)
+  const submittedRef = useRef(false) // hard guard against double submissions
 
   const update = (k) => (e) => {
     setForm((f) => ({ ...f, [k]: e.target.value }))
@@ -85,8 +88,11 @@ export default function ReserveFlow({ initialStep = 0 }) {
 
   const submitDetails = (e) => {
     e.preventDefault()
+    if (submittedRef.current) return // ignore rapid double taps
     const er = validate()
     if (Object.keys(er).length) return setErrors(er)
+    submittedRef.current = true
+    setSubmitting(true)
     captureLead() // save the lead to Google Sheet before payment
     setStep(1)
   }
@@ -173,10 +179,13 @@ export default function ReserveFlow({ initialStep = 0 }) {
             <Field icon={Phone} label="Phone" type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={update('phone')} error={errors.phone} autoComplete="tel" />
 
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">Profession</label>
+              <label htmlFor="field-profession" className="mb-1.5 block text-sm font-medium text-slate-700">
+                Profession
+              </label>
               <div className="relative">
                 <Briefcase className="pointer-events-none absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-slate-400" />
                 <select
+                  id="field-profession"
                   value={form.profession}
                   onChange={update('profession')}
                   className={`w-full appearance-none rounded-xl border bg-slate-50 py-3 pl-11 pr-10 text-sm outline-none transition-colors focus:border-brand-purple/60 focus:bg-white ${
@@ -195,9 +204,22 @@ export default function ReserveFlow({ initialStep = 0 }) {
               {errors.profession && <p className="mt-1.5 text-xs text-red-500">{errors.profession}</p>}
             </div>
 
-            <button type="submit" className="btn-primary mt-1 w-full">
-              Continue to Payment - {EVENT_PRICE}
-              <ArrowRight className="h-4.5 w-4.5" />
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn-primary mt-1 w-full disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {submitting ? (
+                <>
+                  <Loader2 className="h-4.5 w-4.5 animate-spin" />
+                  Reserving your seat...
+                </>
+              ) : (
+                <>
+                  Continue to Payment - {EVENT_PRICE}
+                  <ArrowRight className="h-4.5 w-4.5" />
+                </>
+              )}
             </button>
             <p className="flex items-center justify-center gap-1.5 text-center text-xs text-slate-400">
               <Lock className="h-3 w-3" /> Your details are safe with us. No spam.
@@ -282,12 +304,17 @@ export default function ReserveFlow({ initialStep = 0 }) {
 }
 
 function Field({ icon: Icon, label, error, ...props }) {
+  const id = `field-${label.toLowerCase().replace(/\s+/g, '-')}`
   return (
     <div>
-      <label className="mb-1.5 block text-sm font-medium text-slate-700">{label}</label>
+      <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-slate-700">
+        {label}
+      </label>
       <div className="relative">
         <Icon className="pointer-events-none absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-slate-400" />
         <input
+          id={id}
+          aria-invalid={error ? 'true' : undefined}
           {...props}
           className={`w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-colors focus:border-brand-purple/60 focus:bg-white ${
             error ? 'border-red-400' : 'border-slate-200'
