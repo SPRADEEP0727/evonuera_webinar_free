@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import { ReserveProvider } from './components/ReserveContext.jsx'
 import Background from './components/Background.jsx'
 import Navbar from './components/Navbar.jsx'
@@ -33,6 +34,7 @@ export default function App() {
         <StickyCTA />
       </div>
       <Analytics />
+      <SpeedInsights />
     </ReserveProvider>
   )
 }
