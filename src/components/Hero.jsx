@@ -23,23 +23,23 @@ export default function Hero() {
           </div>
 
           <h1 className="mt-5 font-display text-[2rem] font-bold leading-[1.08] tracking-tight text-white text-balance sm:text-5xl sm:leading-[1.05] lg:text-6xl">
-            The Complete Roadmap to Building{' '}
+            Masterclass on Building{' '}
             <span className="gradient-text">AI Systems &amp; AI Products</span>
           </h1>
 
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-300 text-balance sm:text-lg lg:mx-0">
-            Learn how to use AI to build and ship real-world AI systems &amp; products - in a
-            free, hands-on live masterclass (in Tamil). No prior AI experience needed.
+            Understand how AI is transforming the real world, learn how to build AI Systems
+            using AI Agents &amp; Automation, and discover the roadmap to building AI Products.
           </p>
 
           <div className="mt-6 flex justify-center lg:justify-start">
             <div className="inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-2xl border border-brand-purple/30 bg-brand-purple/10 px-5 py-3 text-sm shadow-glow sm:text-base">
               <span className="flex items-center gap-2 font-bold text-white">
-                <Calendar className="h-5 w-5 text-brand-purple" /> Sun, 16 Aug 2026
+                <Calendar className="h-5 w-5 text-brand-purple" /> Sun, 23 Aug 2026
               </span>
               <span className="hidden h-5 w-px bg-white/20 sm:block" />
               <span className="flex items-center gap-2 font-bold text-white">
-                <Clock className="h-5 w-5 text-brand-coral" /> 10:00 - 11:30 AM IST
+                <Clock className="h-5 w-5 text-brand-coral" /> 10:00 AM - 12:00 PM IST
               </span>
               <span className="hidden h-5 w-px bg-white/20 sm:block" />
               <span className="flex items-center gap-2 font-bold text-white">

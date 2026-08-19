@@ -1,18 +1,17 @@
 import { motion } from 'framer-motion'
-import { Check } from 'lucide-react'
+import { Boxes, Bot, Wrench, MonitorPlay, Route, TrendingUp } from 'lucide-react'
 import Reveal, { SectionHeader } from './Reveal.jsx'
 import LightSection from './LightSection.jsx'
 import { useReserve } from './ReserveContext.jsx'
 
+// Each topic carries its own icon so the six cards read at a glance.
 const items = [
-  'How AI is changing software development',
-  'The roadmap to becoming an AI Builder',
-  'Modern AI development workflow',
-  'How AI Systems are built',
-  'How AI Products are launched',
-  'Live demonstration: Build & deploy a website using Claude Code',
-  'AI tools every builder should know',
-  'AI Agents & automation for real-world workflows',
+  { icon: Boxes, text: 'What AI Systems Are & How They Are Built' },
+  { icon: Bot, text: 'AI Agents & Automation for Real-World Workflows' },
+  { icon: Wrench, text: 'Modern AI Development Workflow & Essential AI Tools' },
+  { icon: MonitorPlay, text: 'Live Demonstration: Build an AI System Using n8n & AI Agents' },
+  { icon: Route, text: 'The Roadmap to Becoming an AI Builder & Building AI Products' },
+  { icon: TrendingUp, text: 'How AI is Transforming Software Development & Real-World Industries' },
 ]
 
 const grid = {
@@ -49,16 +48,16 @@ export default function Curriculum() {
           viewport={{ once: true, margin: '-60px' }}
           className="mx-auto mt-8 grid max-w-4xl gap-4 sm:grid-cols-2 sm:gap-5"
         >
-          {items.map((item) => (
+          {items.map(({ icon: Icon, text }) => (
             <motion.div
-              key={item}
+              key={text}
               variants={cardV}
               className="card-light group flex items-center gap-4 p-4 sm:p-5"
             >
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-grad-brand shadow-glow transition-transform duration-300 group-hover:scale-110">
-                <Check className="h-5 w-5 text-white" strokeWidth={3} />
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-grad-brand shadow-glow transition-transform duration-300 group-hover:scale-110">
+                <Icon className="h-5 w-5 text-white" strokeWidth={2} />
               </span>
-              <span className="text-[15px] font-medium leading-snug text-slate-800">{item}</span>
+              <span className="text-[15px] font-medium leading-snug text-slate-800">{text}</span>
             </motion.div>
           ))}
         </motion.div>

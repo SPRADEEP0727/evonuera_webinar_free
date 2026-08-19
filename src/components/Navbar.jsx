@@ -1,18 +1,12 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Calendar } from 'lucide-react'
+import { Calendar } from 'lucide-react'
 import { useReserve } from './ReserveContext.jsx'
 
-const links = [
-  { label: "What You'll Learn", href: '#curriculum' },
-  { label: 'Live Demo', href: '#live-demo' },
-  { label: 'Who Should Attend', href: '#audience' },
-  { label: 'Trainer', href: '#trainer' },
-  { label: 'FAQ', href: '#faq' },
-]
-
+/**
+ * Landing-page header: logo, event chip and the single Reserve CTA. No
+ * section nav - the page is one scroll and every section ends in its own
+ * call to action, so link-outs would only compete with the CTA.
+ */
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
   const { open: openReserve } = useReserve()
 
   return (
@@ -32,66 +26,18 @@ export default function Navbar() {
           Evonuera
         </a>
 
-        <div className="hidden items-center gap-1 lg:flex">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="rounded-full px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
-            >
-              {l.label}
-            </a>
-          ))}
-        </div>
-
         <div className="flex items-center gap-3">
-          <span className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-slate-300 xl:inline-flex">
-            <Calendar className="h-3.5 w-3.5 text-brand-purple" /> 16 Aug · 10 AM · Tamil
+          <span className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-slate-300 sm:inline-flex">
+            <Calendar className="h-3.5 w-3.5 text-brand-purple" /> 23 Aug · 10 AM · Tamil
           </span>
-          <button onClick={openReserve} className="hidden btn-primary !px-5 !py-2.5 text-sm sm:inline-flex">
-            Reserve My Free Seat
-          </button>
           <button
-            aria-label="Toggle menu"
-            onClick={() => setOpen((v) => !v)}
-            className="grid h-10 w-10 place-items-center rounded-xl glass text-white lg:hidden"
+            onClick={openReserve}
+            className="btn-primary !px-4 !py-2 text-xs sm:!px-5 sm:!py-2.5 sm:text-sm"
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            Reserve My Free Seat
           </button>
         </div>
       </nav>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.25 }}
-            className="mx-3 mt-2 overflow-hidden rounded-2xl glass-strong p-3 lg:hidden"
-          >
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="block rounded-xl px-4 py-3 text-sm font-medium text-slate-200 transition-colors hover:bg-white/5"
-              >
-                {l.label}
-              </a>
-            ))}
-            <button
-              onClick={() => {
-                setOpen(false)
-                openReserve()
-              }}
-              className="mt-2 btn-primary w-full text-sm"
-            >
-              Reserve My Free Seat
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   )
 }

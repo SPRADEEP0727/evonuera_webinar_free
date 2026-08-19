@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion'
-import { Lightbulb, Terminal, Code2, Rocket, Globe, TrendingUp } from 'lucide-react'
+import { TrendingUp, Boxes, Bot, Code2, Workflow, Route } from 'lucide-react'
 import { SectionHeader } from './Reveal.jsx'
 
 const steps = [
-  { icon: Lightbulb, label: 'Idea', desc: 'Start from a real problem worth solving.' },
-  { icon: Terminal, label: 'Claude Code', desc: 'Turn intent into working code with AI.' },
-  { icon: Code2, label: 'Development', desc: 'Build features fast, the right way.' },
-  { icon: Rocket, label: 'Deployment', desc: 'Ship it live to the world - for free.' },
-  { icon: Globe, label: 'Live Website', desc: 'A real product people can use.' },
-  { icon: TrendingUp, label: 'Scaling', desc: 'Grow it into something bigger.' },
+  { icon: TrendingUp, label: 'AI Impact', desc: 'How AI is reshaping software & industries.' },
+  { icon: Boxes, label: 'AI Systems', desc: 'What they are and how they get built.' },
+  { icon: Bot, label: 'Agents', desc: 'AI agents & automation for real workflows.' },
+  { icon: Code2, label: 'Development', desc: 'The modern AI workflow and the tools.' },
+  { icon: Workflow, label: 'Live Build', desc: 'An AI system built live with n8n.' },
+  { icon: Route, label: 'AI Product Roadmap', desc: 'Your path from builder to shipped product.' },
 ]
 
 export default function LiveDemo() {

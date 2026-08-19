@@ -37,10 +37,10 @@ export default function Registration() {
 
                 <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700">
                   <span className="flex items-center gap-2">
-                    <Calendar className="h-4.5 w-4.5 text-brand-purple" /> Sunday, 16 August
+                    <Calendar className="h-4.5 w-4.5 text-brand-purple" /> Sunday, 23 August
                   </span>
                   <span className="flex items-center gap-2">
-                    <Clock className="h-4.5 w-4.5 text-brand-coral" /> 10:00 - 11:30 AM IST
+                    <Clock className="h-4.5 w-4.5 text-brand-coral" /> 10:00 AM - 12:00 PM IST
                   </span>
                   <span className="flex items-center gap-2">
                     <Languages className="h-4.5 w-4.5 text-brand-purple" /> Language: Tamil

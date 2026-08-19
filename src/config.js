@@ -23,6 +23,6 @@ export const PRIVYR_WEBHOOK_URL = 'https://www.privyr.com/api/v1/incoming-leads/
 export const META_PIXEL_ID = '875511848573172'
 
 // Event details (kept here so they stay consistent everywhere)
-export const EVENT_ORIGINAL_PRICE = '₹199' // anchor price shown struck-through next to FREE
-export const EVENT_DATE = 'Sunday, 16 August'
-export const EVENT_TIME = '10:00 - 11:30 AM IST'
+export const EVENT_ORIGINAL_PRICE = '₹1999' // anchor price shown struck-through next to FREE
+export const EVENT_DATE = 'Sunday, 23 August'
+export const EVENT_TIME = '10:00 AM - 12:00 PM IST'
