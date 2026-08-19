@@ -20,7 +20,7 @@ export const PRIVYR_WEBHOOK_URL = 'https://www.privyr.com/api/v1/incoming-leads/
 // Paste the 15-16 digit Pixel ID from Meta Events Manager. Leave empty to
 // disable. When set, a PageView loads on every visit and a "Lead" event
 // fires on each successful registration.
-export const META_PIXEL_ID = '875511848573172'
+export const META_PIXEL_ID = '2116629992614425'
 
 // Event details (kept here so they stay consistent everywhere)
 export const EVENT_ORIGINAL_PRICE = '₹1999' // anchor price shown struck-through next to FREE
