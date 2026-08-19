@@ -20,8 +20,15 @@ export default function Registration() {
                   <Flame className="h-3.5 w-3.5" /> Seats Filling Fast
                 </span>
                 <h2 className="mt-6 font-display text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
-                  Reserve your <span className="gradient-text">seat</span>
+                  Stop wondering where to start with <span className="gradient-text">AI</span>
                 </h2>
+                <p className="mt-4 font-display text-lg font-semibold leading-relaxed text-slate-800">
+                  Learn the roadmap.
+                  <br />
+                  Understand the systems.
+                  <br />
+                  Start building.
+                </p>
                 <p className="mt-4 leading-relaxed text-slate-500">
                   It's completely free - just register to lock in your live seat. Seats are limited,
                   so grab yours before it's full.

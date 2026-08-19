@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion'
-import { Cpu, Workflow, Bot, Boxes, Users, Star, ShieldCheck } from 'lucide-react'
+import { Cpu, Workflow, Bot, Boxes, Check } from 'lucide-react'
 import Reveal from './Reveal.jsx'
 
 const expertise = [
@@ -9,10 +8,9 @@ const expertise = [
   { icon: Boxes, label: 'Product Development' },
 ]
 
-const trust = [
-  { icon: Users, value: '150+', label: 'Learners guided' },
-  { icon: Star, value: '4.9/5', label: 'Average rating' },
-  { icon: ShieldCheck, value: '10+ yrs', label: 'Engineering experience' },
+const credentials = [
+  '7+ years of software development experience',
+  'Building AI applications, AI Agents & AI products',
 ]
 
 export default function Trainer() {
@@ -30,7 +28,7 @@ export default function Trainer() {
                   <source srcSet="/images/my_img.webp" type="image/webp" />
                   <img
                     src="/images/my_img.png"
-                    alt="Pradeep Subramanian - Founder of Evonuera"
+                    alt="Pradeep Subramanian - Software Lead Engineer, AI Systems &amp; Agentic AI"
                     width={1177}
                     height={1336}
                     loading="lazy"
@@ -48,21 +46,27 @@ export default function Trainer() {
               <span className="section-eyebrow">About the Trainer</span>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="mt-5 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                Pradeep Subramanian
+              <h2 className="mt-5 font-display text-3xl font-bold tracking-tight text-white text-balance sm:text-4xl">
+                Learn From Someone Who Builds AI Systems
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-300">
-                <span className="gradient-text font-semibold">Founder of Evonuera</span>
-              </div>
+              <p className="mt-6 font-display text-2xl font-bold text-white">Pradeep Subramanian</p>
+              <p className="mt-1.5 gradient-text font-semibold">
+                Software Lead Engineer | AI Systems &amp; Agentic AI
+              </p>
             </Reveal>
             <Reveal delay={0.15}>
-              <p className="mt-5 max-w-xl leading-relaxed text-slate-400">
-                Pradeep builds AI systems and agentic products for a living - and teaches engineers,
-                students and founders how to do the same. In this masterclass he shares the exact
-                workflow he uses to take ideas from concept to a live, shipped product.
-              </p>
+              <ul className="mt-5 space-y-2.5">
+                {credentials.map((c) => (
+                  <li key={c} className="flex items-center gap-3 text-slate-300">
+                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-brand-purple/30 bg-brand-purple/10">
+                      <Check className="h-3.5 w-3.5 text-brand-purple" strokeWidth={3} />
+                    </span>
+                    {c}
+                  </li>
+                ))}
+              </ul>
             </Reveal>
 
             <Reveal delay={0.2}>
@@ -81,27 +85,6 @@ export default function Trainer() {
                 </div>
               </div>
             </Reveal>
-
-            {/* Trust stats */}
-            <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
-              className="mt-8 grid grid-cols-3 gap-3"
-            >
-              {trust.map((t) => (
-                <motion.div
-                  key={t.label}
-                  variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
-                  className="glass rounded-2xl p-4 text-center"
-                >
-                  <t.icon className="mx-auto h-5 w-5 text-brand-coral" />
-                  <p className="mt-2 font-display text-xl font-bold text-white">{t.value}</p>
-                  <p className="mt-0.5 text-[11px] leading-tight text-slate-400">{t.label}</p>
-                </motion.div>
-              ))}
-            </motion.div>
           </div>
         </div>
       </div>

@@ -1,15 +1,15 @@
 import { motion } from 'framer-motion'
-import { Code2, GraduationCap, Server, Briefcase, Rocket, Heart } from 'lucide-react'
+import { Code2, GraduationCap, Briefcase, Rocket, PenTool, Sparkles } from 'lucide-react'
 import { SectionHeader } from './Reveal.jsx'
 import LightSection from './LightSection.jsx'
 
 const people = [
-  { icon: Code2, title: 'Software Engineers', desc: 'Level up with AI-native development skills.' },
+  { icon: Code2, title: 'Software Developers', desc: 'Level up with AI-native development skills.' },
   { icon: GraduationCap, title: 'Students', desc: 'Get ahead before you even graduate.' },
-  { icon: Server, title: 'IT Professionals', desc: 'Bring AI automation into your work.' },
-  { icon: Briefcase, title: 'Freelancers', desc: 'Ship AI products clients actually pay for.' },
-  { icon: Rocket, title: 'Founders', desc: 'Build and validate ideas at AI speed.' },
-  { icon: Heart, title: 'Anyone Interested in AI', desc: 'No matter your background - start building.' },
+  { icon: Briefcase, title: 'Working Professionals', desc: 'Bring AI systems & automation into your work.' },
+  { icon: Rocket, title: 'Entrepreneurs & Founders', desc: 'Build and validate ideas at AI speed.' },
+  { icon: PenTool, title: 'Freelancers', desc: 'Ship AI products clients actually pay for.' },
+  { icon: Sparkles, title: 'Anyone Who Wants to Build with AI', desc: 'No matter your background - start building.' },
 ]
 
 const grid = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } }

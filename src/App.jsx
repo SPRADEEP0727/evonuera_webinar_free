@@ -5,8 +5,10 @@ import Background from './components/Background.jsx'
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
 import Marquee from './components/Marquee.jsx'
+import PainPoints from './components/PainPoints.jsx'
 import Curriculum from './components/Curriculum.jsx'
 import LiveDemo from './components/LiveDemo.jsx'
+import Curiosity from './components/Curiosity.jsx'
 import Audience from './components/Audience.jsx'
 import Trainer from './components/Trainer.jsx'
 import Registration from './components/Registration.jsx'
@@ -22,8 +24,10 @@ export default function App() {
         <main className="relative z-10 pb-28">
           <Hero />
           <Marquee />
+          <PainPoints />
           <Curriculum />
           <LiveDemo />
+          <Curiosity />
           <Audience />
           <Trainer />
           <Registration />

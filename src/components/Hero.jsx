@@ -2,6 +2,8 @@ import { Radio, Users, ArrowRight, Sparkles, Calendar, Clock, Languages, Graduat
 import { useReserve } from './ReserveContext.jsx'
 import { EVENT_ORIGINAL_PRICE } from '../config.js'
 
+const TOPICS = ['AI Agents', 'Agentic AI', 'AI Products', 'AI Automation']
+
 /**
  * Above-the-fold hero. Intentionally rendered as plain HTML/CSS (no
  * framer-motion entrance) so the LCP element - the <h1> and hero image -
@@ -31,6 +33,17 @@ export default function Hero() {
             Understand how AI is transforming the real world, learn how to build AI Systems
             using AI Agents &amp; Automation, and discover the roadmap to building AI Products.
           </p>
+
+          <div className="mt-5 flex flex-wrap justify-center gap-2 lg:justify-start">
+            {TOPICS.map((t) => (
+              <span
+                key={t}
+                className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-semibold text-slate-200 sm:text-sm"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
 
           <div className="mt-6 flex justify-center lg:justify-start">
             <div className="inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-2xl border border-brand-purple/30 bg-brand-purple/10 px-5 py-3 text-sm shadow-glow sm:text-base">
