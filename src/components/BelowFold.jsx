@@ -7,6 +7,7 @@ import Audience from './Audience.jsx'
 import Trainer from './Trainer.jsx'
 import Registration from './Registration.jsx'
 import FAQ from './FAQ.jsx'
+import Motion from './Motion.jsx'
 
 /**
  * Everything below the hero, bundled into a single lazy chunk. None of it is
@@ -17,7 +18,7 @@ import FAQ from './FAQ.jsx'
  */
 export default function BelowFold() {
   return (
-    <>
+    <Motion>
       <Marquee />
       <PainPoints />
       <Curriculum />
@@ -27,7 +28,7 @@ export default function BelowFold() {
       <Trainer />
       <Registration />
       <FAQ />
-    </>
+    </Motion>
   )
 }
 

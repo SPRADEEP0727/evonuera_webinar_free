@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Code2, GraduationCap, Briefcase, Rocket, PenTool, Sparkles } from 'lucide-react'
 import { SectionHeader } from './Reveal.jsx'
 import LightSection from './LightSection.jsx'
@@ -29,7 +29,7 @@ export default function Audience() {
           subtitle="If you want to stop watching from the sidelines and start shipping, this is for you."
         />
 
-        <motion.div
+        <m.div
           variants={grid}
           initial="hidden"
           whileInView="show"
@@ -37,7 +37,7 @@ export default function Audience() {
           className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
         >
           {people.map((p) => (
-            <motion.div
+            <m.div
               key={p.title}
               variants={cardV}
               className="card-light group relative overflow-hidden p-6"
@@ -49,9 +49,9 @@ export default function Audience() {
                 <h3 className="font-display text-lg font-semibold text-slate-900">{p.title}</h3>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-slate-500">{p.desc}</p>
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </LightSection>
   )

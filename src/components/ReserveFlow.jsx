@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import {
   User,
   Mail,
@@ -190,7 +190,7 @@ export default function ReserveFlow() {
       <AnimatePresence mode="wait">
         {/* STEP 1 - details */}
         {step === 0 && (
-          <motion.form
+          <m.form
             key="details"
             initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
@@ -303,12 +303,12 @@ export default function ReserveFlow() {
             <p className="flex items-center justify-center gap-1.5 text-center text-xs text-slate-400">
               <Lock className="h-3 w-3" /> Your details are safe with us. No spam.
             </p>
-          </motion.form>
+          </m.form>
         )}
 
         {/* STEP 2 - registered */}
         {step === 1 && (
-          <motion.div
+          <m.div
             key="registered"
             initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
@@ -338,7 +338,7 @@ export default function ReserveFlow() {
               <WhatsAppIcon className="h-5 w-5" />
               Join WhatsApp Community
             </button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

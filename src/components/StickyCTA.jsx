@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Flame, Calendar, Clock } from 'lucide-react'
 import { useReserve } from './ReserveContext.jsx'
+import Motion from './Motion.jsx'
 
 /**
  * Persistent floating Register bar shown on ALL breakpoints once the visitor
@@ -28,9 +29,10 @@ export default function StickyCTA() {
   }, [])
 
   return (
-    <AnimatePresence>
+    <Motion>
+      <AnimatePresence>
       {show && (
-        <motion.div
+        <m.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
@@ -55,8 +57,9 @@ export default function StickyCTA() {
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
-        </motion.div>
+        </m.div>
       )}
-    </AnimatePresence>
+      </AnimatePresence>
+    </Motion>
   )
 }

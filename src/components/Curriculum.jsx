@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Boxes, Bot, Wrench, MonitorPlay, Route, TrendingUp } from 'lucide-react'
 import Reveal, { SectionHeader } from './Reveal.jsx'
 import LightSection from './LightSection.jsx'
@@ -41,7 +41,7 @@ export default function Curriculum() {
           </p>
         </Reveal>
 
-        <motion.div
+        <m.div
           variants={grid}
           initial="hidden"
           whileInView="show"
@@ -49,7 +49,7 @@ export default function Curriculum() {
           className="mx-auto mt-8 grid max-w-4xl gap-4 sm:grid-cols-2 sm:gap-5"
         >
           {items.map(({ icon: Icon, text }) => (
-            <motion.div
+            <m.div
               key={text}
               variants={cardV}
               className="card-light group flex items-center gap-4 p-4 sm:p-5"
@@ -58,9 +58,9 @@ export default function Curriculum() {
                 <Icon className="h-5 w-5 text-white" strokeWidth={2} />
               </span>
               <span className="text-[15px] font-medium leading-snug text-slate-800">{text}</span>
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
 
         <Reveal delay={0.1} className="mt-12 text-center">
           <button onClick={openReserve} className="btn-primary">

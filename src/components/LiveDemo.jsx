@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { TrendingUp, Boxes, Bot, Code2, Workflow, Route } from 'lucide-react'
 import { SectionHeader } from './Reveal.jsx'
 
@@ -29,7 +29,7 @@ export default function LiveDemo() {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:gap-4">
             {steps.map((s, i) => (
-              <motion.div
+              <m.div
                 key={s.label}
                 initial={{ opacity: 0, y: 26 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -52,7 +52,7 @@ export default function LiveDemo() {
                 {i < steps.length - 1 && (
                   <div className="my-3 h-6 w-px bg-gradient-to-b from-brand-purple/50 to-transparent sm:hidden" />
                 )}
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>

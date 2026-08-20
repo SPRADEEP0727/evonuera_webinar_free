@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { SectionHeader } from './Reveal.jsx'
 
 // Deliberately phrased as open questions - enough to create the pull without
@@ -27,7 +27,7 @@ export default function Curiosity() {
           subtitle="The questions most AI content leaves you guessing about."
         />
 
-        <motion.ol
+        <m.ol
           variants={list}
           initial="hidden"
           whileInView="show"
@@ -35,7 +35,7 @@ export default function Curiosity() {
           className="mx-auto mt-10 grid max-w-3xl gap-3.5 sm:mt-14"
         >
           {points.map((p, i) => (
-            <motion.li
+            <m.li
               key={p}
               variants={row}
               className="group flex items-center gap-4 rounded-2xl glass px-5 py-5 transition-colors duration-300 hover:border-brand-purple/30"
@@ -46,9 +46,9 @@ export default function Curiosity() {
               <span className="text-[15px] font-medium leading-snug text-slate-100 sm:text-base">
                 {p}
               </span>
-            </motion.li>
+            </m.li>
           ))}
-        </motion.ol>
+        </m.ol>
       </div>
     </section>
   )

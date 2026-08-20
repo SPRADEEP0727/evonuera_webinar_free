@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import {
   X,
   ArrowDown,
@@ -57,7 +57,7 @@ export default function PainPoints() {
         />
 
         {/* The pains, stated plainly */}
-        <motion.ul
+        <m.ul
           variants={list}
           initial="hidden"
           whileInView="show"
@@ -65,7 +65,7 @@ export default function PainPoints() {
           className="mx-auto mt-10 grid max-w-3xl gap-3 sm:mt-12"
         >
           {pains.map((p) => (
-            <motion.li
+            <m.li
               key={p}
               variants={row}
               className="flex items-center gap-4 rounded-2xl glass px-5 py-4"
@@ -74,9 +74,9 @@ export default function PainPoints() {
                 <X className="h-4 w-4 text-red-400" strokeWidth={3} />
               </span>
               <span className="text-[15px] leading-snug text-slate-200">{p}</span>
-            </motion.li>
+            </m.li>
           ))}
-        </motion.ul>
+        </m.ul>
 
         <Reveal delay={0.1} className="mt-10 text-center">
           <p className="mx-auto max-w-2xl text-base font-semibold text-white text-balance sm:text-lg">

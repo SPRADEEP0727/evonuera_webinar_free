@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { Plus } from 'lucide-react'
 import { SectionHeader } from './Reveal.jsx'
 
@@ -34,7 +34,7 @@ export default function FAQ() {
           {faqs.map((f, i) => {
             const isOpen = open === i
             return (
-              <motion.div
+              <m.div
                 key={f.q}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -60,17 +60,17 @@ export default function FAQ() {
                 </button>
                 <AnimatePresence initial={false}>
                   {isOpen && (
-                    <motion.div
+                    <m.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                     >
                       <p className="px-5 pb-5 text-sm leading-relaxed text-slate-400 sm:px-6">{f.a}</p>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
-              </motion.div>
+              </m.div>
             )
           })}
         </div>

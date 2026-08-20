@@ -1,6 +1,7 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import ReserveFlow from './ReserveFlow.jsx'
+import Motion from './Motion.jsx'
 
 /**
  * The reservation modal, split into its own chunk. It carries framer-motion
@@ -12,9 +13,10 @@ import ReserveFlow from './ReserveFlow.jsx'
  */
 export default function ReserveModal({ isOpen, close }) {
   return (
+    <Motion>
   <AnimatePresence>
     {isOpen && (
-      <motion.div
+      <m.div
         className="fixed inset-0 z-[100] flex items-center justify-center p-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -29,7 +31,7 @@ export default function ReserveModal({ isOpen, close }) {
         />
 
         {/* Panel */}
-        <motion.div
+        <m.div
           role="dialog"
           aria-modal="true"
           aria-label="Reserve your free seat"
@@ -65,9 +67,10 @@ export default function ReserveModal({ isOpen, close }) {
 
             <ReserveFlow />
           </div>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     )}
   </AnimatePresence>
+    </Motion>
   )
 }

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { CheckCircle2, Flame, Calendar, Clock, Languages } from 'lucide-react'
 import LightSection from './LightSection.jsx'
 import ReserveFlow from './ReserveFlow.jsx'
@@ -73,7 +73,7 @@ export default function Registration() {
                   <span className="font-semibold text-slate-900">86% full</span>
                 </div>
                 <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100">
-                  <motion.div
+                  <m.div
                     initial={{ width: 0 }}
                     whileInView={{ width: '86%' }}
                     viewport={{ once: true }}

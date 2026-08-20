@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const variants = {
   hidden: { opacity: 0, y: 28 },
@@ -7,7 +7,7 @@ const variants = {
 
 /** Scroll-triggered fade-up wrapper. */
 export default function Reveal({ children, delay = 0, className = '', as = 'div' }) {
-  const MotionTag = motion[as] || motion.div
+  const MotionTag = m[as] || m.div
   return (
     <MotionTag
       variants={variants}
