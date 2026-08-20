@@ -108,7 +108,11 @@ export default function Hero() {
           <div className="absolute inset-0 -z-10 scale-110 rounded-[2rem] bg-grad-brand opacity-30 blur-3xl" />
           <div className="glass-strong overflow-hidden rounded-2xl p-1.5 shadow-glow-lg">
             <picture>
-              <source srcSet="/images/hero.webp" type="image/webp" />
+              <source
+                type="image/webp"
+                srcSet="/images/hero-640.webp 640w, /images/hero-960.webp 960w, /images/hero-1280.webp 1280w, /images/hero.webp 1536w"
+                sizes="(min-width: 640px) 564px, calc(100vw - 2.75rem)"
+              />
               <img
                 src="/images/hero.png"
                 alt="Developer building and deploying an AI product live - AI agent flow, code editor and deployment dashboard on stage"

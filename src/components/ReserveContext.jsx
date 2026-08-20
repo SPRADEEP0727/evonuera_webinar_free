@@ -1,7 +1,7 @@
-import { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { X } from 'lucide-react'
-import ReserveFlow from './ReserveFlow.jsx'
+import { createContext, useContext, useState, useEffect, useCallback, lazy, Suspense } from 'react'
+
+const loadModal = () => import('./ReserveModal.jsx')
+const ReserveModal = lazy(loadModal)
 
 const ReserveContext = createContext({
   open: () => {},
@@ -18,7 +18,9 @@ const REGISTERED_KEY = 'evonuera_registered'
 export function ReserveProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false)
   const [registered, setRegistered] = useState(false)
-  const hasOpenedRef = useRef(false) // becomes true once the modal is opened (auto or manual)
+  // Stays true after the first open so exit animations still have a tree to
+  // animate out of, and the chunk is only ever fetched once.
+  const [modalMounted, setModalMounted] = useState(false)
 
   // Restore "registered" state so the webinar stays unlocked across reloads.
   useEffect(() => {
@@ -30,7 +32,7 @@ export function ReserveProvider({ children }) {
   }, [])
 
   const open = useCallback(() => {
-    hasOpenedRef.current = true
+    setModalMounted(true)
     setIsOpen(true)
   }, [])
   const close = useCallback(() => setIsOpen(false), [])
@@ -42,6 +44,16 @@ export function ReserveProvider({ children }) {
     } catch {
       /* storage unavailable - ignore */
     }
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (typeof window.requestIdleCallback === 'function') {
+      const id = window.requestIdleCallback(loadModal, { timeout: 4000 })
+      return () => window.cancelIdleCallback(id)
+    }
+    const t = setTimeout(loadModal, 2500)
+    return () => clearTimeout(t)
   }, [])
 
   // Esc to close + lock body scroll while open
@@ -61,63 +73,11 @@ export function ReserveProvider({ children }) {
     <ReserveContext.Provider value={{ open, close, isOpen, registered, markRegistered }}>
       {children}
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            {/* Backdrop */}
-            <div
-              className="absolute inset-0 bg-ink-950/80 backdrop-blur-sm"
-              onClick={close}
-              aria-hidden="true"
-            />
-
-            {/* Panel */}
-            <motion.div
-              role="dialog"
-              aria-modal="true"
-              aria-label="Reserve your free seat"
-              initial={{ opacity: 0, scale: 0.95, y: 24 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.97, y: 12 }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
-            >
-              <button
-                onClick={close}
-                aria-label="Close"
-                className="absolute right-4 top-4 z-20 grid h-9 w-9 place-items-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-800"
-              >
-                <X className="h-4.5 w-4.5" />
-              </button>
-
-              <div className="max-h-[88vh] overflow-y-auto p-6 sm:p-8">
-                {/* Brand header */}
-                <div className="mb-6 flex items-center gap-2.5">
-                  <picture>
-                    <source srcSet="/images/logo.webp" type="image/webp" />
-                    <img
-                      src="/images/logo_icon.png"
-                      alt="Evonuera logo"
-                      width={36}
-                      height={36}
-                      className="h-9 w-9 rounded-xl shadow-glow"
-                    />
-                  </picture>
-                  <span className="font-display text-lg font-bold text-slate-900">Evonuera</span>
-                </div>
-
-                <ReserveFlow />
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {modalMounted && (
+        <Suspense fallback={null}>
+          <ReserveModal isOpen={isOpen} close={close} />
+        </Suspense>
+      )}
     </ReserveContext.Provider>
   )
 }

@@ -47,6 +47,43 @@ export function initPixel() {
 }
 
 /**
+ * Start the pixel outside the critical path. fbevents.js costs ~230KB and
+ * ~220ms of main thread; loading it during first paint pushed out LCP and
+ * accounted for most of the page's blocking time.
+ *
+ * Whichever comes first wins: the browser going idle after `load`, or the
+ * visitor's first interaction. Conversions are safe either way - trackLead()
+ * and trackJoinCommunity() initialise on demand, and fbq queues calls made
+ * before the script finishes downloading.
+ */
+export function schedulePixel() {
+  if (!META_PIXEL_ID || typeof window === 'undefined') return
+
+  const wake = ['pointerdown', 'keydown', 'touchstart', 'scroll']
+  let started = false
+
+  const start = () => {
+    if (started) return
+    started = true
+    wake.forEach((e) => window.removeEventListener(e, start))
+    initPixel()
+  }
+
+  wake.forEach((e) => window.addEventListener(e, start, { passive: true }))
+
+  const whenIdle = () => {
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(start, { timeout: 2500 })
+    } else {
+      setTimeout(start, 1500)
+    }
+  }
+
+  if (document.readyState === 'complete') whenIdle()
+  else window.addEventListener('load', whenIdle, { once: true })
+}
+
+/**
  * Fire the registration-complete conversion when the popup form is submitted.
  * Sends two standard events so both funnel steps are measurable in Meta:
  *   • CompleteRegistration - the "registration finished" step (pairs with the
@@ -55,7 +92,9 @@ export function initPixel() {
  * Each event carries its own eventID for browser/server deduplication.
  */
 export function trackLead() {
-  if (typeof window === 'undefined' || !window.fbq) return
+  if (typeof window === 'undefined') return
+  initPixel() // no-op once loaded; guarantees the event is never dropped
+  if (!window.fbq) return
   const details = { content_name: 'Free AI Masterclass Registration' }
   window.fbq('track', 'CompleteRegistration', details, { eventID: newEventId() })
   window.fbq('track', 'Lead', details, { eventID: newEventId() })
@@ -63,7 +102,9 @@ export function trackLead() {
 
 /** Fire a custom event when a visitor clicks "Join WhatsApp Community". */
 export function trackJoinCommunity() {
-  if (typeof window !== 'undefined' && window.fbq) {
+  if (typeof window === 'undefined') return
+  initPixel()
+  if (window.fbq) {
     window.fbq(
       'trackCustom',
       'JoinWhatsAppCommunity',
